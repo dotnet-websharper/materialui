@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.MaterialUI", "WebSharper.MaterialUI\WebSharper.MaterialUI.fsproj", "{19F47D03-0587-44F5-BA12-1758CAE8C352}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.MaterialUI.Tests", "WebSharper.MaterialUI.Tests\WebSharper.MaterialUI.Tests.fsproj", "{F8D147B1-3059-45A2-9050-B9AD7FE586B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19F47D03-0587-44F5-BA12-1758CAE8C352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F47D03-0587-44F5-BA12-1758CAE8C352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F47D03-0587-44F5-BA12-1758CAE8C352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F47D03-0587-44F5-BA12-1758CAE8C352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8D147B1-3059-45A2-9050-B9AD7FE586B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8D147B1-3059-45A2-9050-B9AD7FE586B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8D147B1-3059-45A2-9050-B9AD7FE586B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8D147B1-3059-45A2-9050-B9AD7FE586B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
