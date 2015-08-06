@@ -33,7 +33,7 @@ bt.Solution [
             { configuration with
                 Title = Some "WebSharper.MaterialUI"
                 LicenseUrl = Some "http://websharper.com/licensing"
-                ProjectUrl = Some "https://bitbucket.com/intellifactory/websharper.materialui"
+                ProjectUrl = Some "https://bitbucket.org/intellifactory/websharper.materialui"
                 Description = "WebSharper bindings for Material UI"
                 Authors = [ "IntelliFactory" ]
                 RequiresLicenseAcceptance = true })
