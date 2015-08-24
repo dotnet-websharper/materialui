@@ -25,3 +25,6 @@ module MaterialUI =
         {
             MuiTheme = ThemeManager().GetCurrentTheme()
         }
+
+[<assembly: System.Web.UI.WebResource("material-ui.min.js", "text/javascript")>]
+do ()
