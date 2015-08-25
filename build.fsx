@@ -14,6 +14,10 @@ let library =
             [
                 ref.NuGet("WebSharper.React").Reference()
             ])
+        .Embed(
+            [
+                "material-ui.min.js"
+            ])
 
 let tests =
     bt.WebSharper.BundleWebsite("WebSharper.MaterialUI.Tests")
