@@ -41,6 +41,8 @@ module Client =
         ]
 
     let Main =
+        MaterialUI.Context.ThemeManager.SetTheme Theme.Dark
+
         React.Class State.Default
         <| fun this ->
             Element.Wrap [
