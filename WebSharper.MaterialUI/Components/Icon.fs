@@ -7,7 +7,7 @@ open WebSharper.JavaScript
 
 open WebSharper.React.Bindings
 
-module Element = WebSharper.React.Element
+module Element = WebSharper.React.Obsolete.Element
 
 [<AutoOpen>]
 [<JavaScript>]

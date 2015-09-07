@@ -1,7 +1,7 @@
 ﻿namespace WebSharper.MaterialUI
 
 open WebSharper
-open WebSharper.React
+open WebSharper.React.Obsolete
 
 [<AbstractClass>]
 [<JavaScript>]

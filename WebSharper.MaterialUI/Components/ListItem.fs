@@ -6,7 +6,7 @@ open WebSharper
 open WebSharper.JavaScript
 
 open WebSharper.React.Bindings
-open WebSharper.React
+open WebSharper.React.Obsolete
 
 [<AutoOpen>]
 [<JavaScript>]

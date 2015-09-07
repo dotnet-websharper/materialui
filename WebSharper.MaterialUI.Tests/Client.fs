@@ -3,7 +3,7 @@ namespace WebSharper.React.Tests
 open WebSharper
 open WebSharper.JavaScript
 
-open WebSharper.React
+open WebSharper.React.Obsolete
 
 open WebSharper.MaterialUI
 
