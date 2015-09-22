@@ -174,11 +174,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="WebSharper.React">
-      <HintPath>..\packages\WebSharper.React.3.4.5.5\lib\net40\WebSharper.React.dll</HintPath>
+      <HintPath>..\packages\WebSharper.React.3.4.6.6\lib\net40\WebSharper.React.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebSharper.React.Bindings">
-      <HintPath>..\packages\WebSharper.React.3.4.5.5\lib\net40\WebSharper.React.Bindings.dll</HintPath>
+      <HintPath>..\packages\WebSharper.React.3.4.6.6\lib\net40\WebSharper.React.Bindings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebSharper.Sitelets">

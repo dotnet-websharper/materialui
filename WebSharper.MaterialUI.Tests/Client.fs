@@ -1,10 +1,9 @@
-namespace WebSharper.React.Tests
+namespace WebSharper.MaterialUI.Tests
 
 open WebSharper
 open WebSharper.JavaScript
 
-open WebSharper.React.Obsolete
-
+open WebSharper.React
 open WebSharper.MaterialUI
 
 [<JavaScript>]
@@ -36,9 +35,7 @@ module Client =
             }
     
     let Button label =
-        RaisedButton(label, wide = true) -< [
-            "secondary", true
-        ]
+        RaisedButton(label, wide = true)
 
     let Main =
         MaterialUI.Context.ThemeManager.SetTheme Theme.Dark
@@ -48,14 +45,14 @@ module Client =
             Element.Wrap [
                 Element.Wrap [
                     TextField("What needs to be done?", this.State.Input, true)
-                    |>! Change (fun event ->
+                    |> Events.OnChange (fun event ->
                         { this.State with
                             Input = event?target?value }
                         |> this.SetState
                     )
 
                     Button "Add"
-                    |>! Click (fun _ ->
+                    |> Events.OnClick (fun _ ->
                         if this.State.Input.Length > 0 && not (List.exists (fun task -> task.Name = this.State.Input) this.State.Tasks) then
                             { this.State with
                                 Input = ""
@@ -65,7 +62,7 @@ module Client =
                     )
                 ]
                 Button "Clear completed tasks"
-                |>! Click (fun _ ->
+                |> Events.OnClick (fun _ ->
                     { this.State with
                         Tasks =
                             this.State.Tasks

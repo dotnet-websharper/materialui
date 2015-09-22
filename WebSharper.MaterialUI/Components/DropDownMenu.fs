@@ -1,33 +1,30 @@
 ﻿namespace WebSharper.MaterialUI
 
-open System.Collections
-
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React
 open WebSharper.React.Bindings
 
-[<AutoOpen>]
 [<JavaScript>]
-module DropDownMenu =
-    
+type DropDownMenu(items : string list) =
     [<Inline "MaterialUI.DropDownMenu">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type DropDownMenu(items : string list) =
-        inherit Component(Class)
-
-        member val Properties =
-            let menuItems =
-                items
-                |> List.mapi (fun index item ->
-                    New [
-                        "payload" => string index
-                        "text"    => item
-                    ]
-                )
-            
-            Generic.List [
-                "menuItems" => List.toArray menuItems
-                "autoWidth" => true
+    let map items =
+        items
+        |> List.mapi (fun index item ->
+            New [
+                "payload" => string index
+                "text"    => item
             ]
+        )
+        |> List.toArray
+        
+    interface Component with
+        member this.Map () =
+            React.CreateElement(class' (), 
+                New [
+                    "menuItems" => map items
+                    "autoWidth" => true
+                ])

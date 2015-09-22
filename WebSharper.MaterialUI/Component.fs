@@ -1,12 +1,17 @@
 ﻿namespace WebSharper.MaterialUI
 
 open WebSharper
-open WebSharper.React.Obsolete
+open WebSharper.JavaScript
+
+open WebSharper.React.Bindings
 
 [<AbstractClass>]
 [<JavaScript>]
-type Component(class', ?children) =
-    inherit GenericElement()
-        override this.Type = Choice2Of2 class'
+type EventListener() =
+    let events = ref []
 
-    member val Children : GenericElement list = default' children []
+    member this.AddEvent (event : string * (SyntheticEvent -> unit)) =
+        events := event :: !events
+        this
+
+    member this.GetEvents () = events

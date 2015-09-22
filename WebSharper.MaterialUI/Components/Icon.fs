@@ -1,25 +1,19 @@
 ﻿namespace WebSharper.MaterialUI
 
-open System.Collections
-
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React
 open WebSharper.React.Bindings
 
-module Element = WebSharper.React.Obsolete.Element
-
-[<AutoOpen>]
 [<JavaScript>]
-module Icon =
-    
+type Icon(name : string) =
     [<Inline "MaterialUI.Icon">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type Icon(name : string) =
-        inherit Component(Class, [ Element.Text name ])
-
-        member val Properties =
-            Generic.List [
-                "className" => "material-icons"
-            ]
+    interface Component with
+        member this.Map () =
+            React.CreateElement(class' (), 
+                New [
+                    "className" => "material-icons"
+                ], name)

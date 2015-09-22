@@ -3,7 +3,7 @@ namespace WebSharper.MaterialUI
 open WebSharper
 open WebSharper.JavaScript
 
-open WebSharper.React.Obsolete
+open WebSharper.React
 
 [<JavaScript>]
 type Theme =
@@ -28,12 +28,27 @@ module MaterialUI =
             [<Name "muiTheme">] ThemeManager : ThemeManager
         }
 
-        interface GenericContext
+        interface React.Context
 
     let Context =
         {
             ThemeManager = ThemeManager().GetCurrentTheme()
         }
+
+[<JavaScript>]
+module Events =
+    
+    let OnChange callback (component' : TextField) =
+        component'.Events <- [ ("onChange", callback) ]
+        component'
+
+    let OnClick callback (component' : RaisedButton) =
+        component'.Events <- [ ("onClick", callback) ]
+        component'
+
+    let OnCheck callback (component' : Checkbox) =
+        component'.Events <- [ ("onCheck", callback) ]
+        component'
 
 [<assembly: System.Web.UI.WebResource("material-ui.min.js", "text/javascript")>]
 do ()

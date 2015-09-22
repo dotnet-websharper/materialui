@@ -1,25 +1,25 @@
 ﻿namespace WebSharper.MaterialUI
 
-open System.Collections
-
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React
 open WebSharper.React.Bindings
 
-[<AutoOpen>]
 [<JavaScript>]
-module RaisedButton =
-    
+type RaisedButton(label, ?disabled, ?wide) =
     [<Inline "MaterialUI.RaisedButton">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type RaisedButton(label : string, ?disabled, ?wide) =
-        inherit Component(Class)
+    member val Events = [] with get, set
 
-        member val Properties =
-            Generic.List [
-                "label"     => label
-                "disabled"  => default' disabled false
-                "fullWidth" => default' wide false
-            ]
+    interface Component with
+        member this.Map () =
+            React.CreateElement(class' (), 
+                New [
+                    yield "label"     => label
+                    yield "disabled"  => default' disabled false
+                    yield "fullWidth" => default' wide false
+
+                    yield! this.Events
+                ])

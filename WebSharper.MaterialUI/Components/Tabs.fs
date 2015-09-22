@@ -1,23 +1,21 @@
 ﻿namespace WebSharper.MaterialUI
 
-open System.Collections
-
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React
 open WebSharper.React.Bindings
 
-module Element = WebSharper.React.Obsolete.Element
-
-[<AutoOpen>]
 [<JavaScript>]
-module Tabs =
-    
+type Tabs(tabs : Tab list) =
     [<Inline "MaterialUI.Tabs">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type Tabs(tabs : Tab list) =
-        inherit Component(Class, List.map (fun tab -> tab :> Element.GenericElement) tabs)
+    interface Component with
+        member this.Map () =
+            let children =
+                tabs
+                |> List.map (fun tab -> (tab :> Component).Map())
+                |> List.toArray
 
-        member val Properties =
-            Generic.List []
+            React.CreateElement(class' (), [], children)

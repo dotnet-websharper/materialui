@@ -1,79 +1,63 @@
 ﻿namespace WebSharper.MaterialUI
 
-open System.Collections
-
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React
 open WebSharper.React.Bindings
 
-module Element = WebSharper.React.Obsolete.Element
-
-[<AutoOpen>]
 [<JavaScript>]
-module ToolbarGroup =
-    
-    type Position =
-        | Left
-        | Right
-
-        override this.ToString () =
-            match this with
-            | Left  -> "left"
-            | Right -> "right"
-
+type ToolbarGroup(children : Component list, ?position : string) =
     [<Inline "MaterialUI.ToolbarGroup">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type ToolbarGroup(children, ?position : Position) =
-        inherit Component(Class, children)
+    interface Component with
+        member this.Map () =
+            React.CreateElement(class' (), 
+                let children =
+                    children
+                    |> List.map (fun child -> child.Map())
+                    |> List.toArray
+                
+                New [
+                    match position with
+                    | Some position ->
+                        yield "float" => position
+                    | _ ->
+                        ()
+                ], children)
 
-        member val Properties =
-            Generic.List [
-                match position with
-                | Some position ->
-                    yield "float" => string position
-                | _ ->
-                    ()
-            ]
-
-[<AutoOpen>]
 [<JavaScript>]
-module Toolbar =
-    
+type Toolbar(groups : ToolbarGroup list) =
     [<Inline "MaterialUI.Toolbar">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type Toolbar(groups : ToolbarGroup list) =
-        inherit Component(Class, List.map (fun group -> group :> Element.GenericElement) groups)
+    interface Component with
+        member this.Map () =
+            let children =
+                groups
+                |> List.map (fun group -> (group :> Component).Map())
+                |> List.toArray
+            
+            React.CreateElement(class' (), [], children)
 
-        member val Properties =
-            Generic.List []
-
-[<AutoOpen>]
 [<JavaScript>]
-module ToolbarSeparator =
-    
+type ToolbarSeparator() =
     [<Inline "MaterialUI.ToolbarSeparator">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type ToolbarSeparator() =
-        inherit Component(Class)
+    interface Component with
+        member this.Map () =
+            React.CreateElement (class' ())
 
-        member val Properties =
-            Generic.List []
-
-[<AutoOpen>]
 [<JavaScript>]
-module ToolbarTitle =
-    
+type ToolbarTitle(text : string) =
     [<Inline "MaterialUI.ToolbarTitle">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type ToolbarTitle(text : string) =
-        inherit Component(Class)
-
-        member val Properties =
-            Generic.List [
-                "text" => text
-            ]
+    interface Component with
+        member this.Map () =
+            React.CreateElement(class' (), 
+                New [
+                    "text" => text
+                ])

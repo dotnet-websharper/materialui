@@ -1,35 +1,37 @@
 ﻿namespace WebSharper.MaterialUI
 
-open System.Collections
-
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React
 open WebSharper.React.Bindings
-open WebSharper.React.Obsolete
 
-[<AutoOpen>]
 [<JavaScript>]
-module ListItem =
-    
+type ListItem(?primaryText, ?secondaryText) =
     [<Inline "MaterialUI.ListItem">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type ListItem(?primaryText, ?secondaryText) =
-        inherit Component(Class, [])
+    member val Checkbox = None with get, set
 
-        member val Properties =
-            Generic.List [
-                "primaryText" => default' primaryText ""
+    interface Component with
+        member this.Map () =
+            React.CreateElement(class' (), 
+                New [
+                    yield "primaryText"        => default' primaryText ""
+                    yield "secondaryText"      => default' secondaryText ""
+                    yield "secondaryTextLines" => 2
+                    
+                    match this.Checkbox with
+                    | Some checkbox ->
+                        yield "leftCheckbox" => (checkbox :> Component).Map()
+                    | _ ->
+                        ()
+                ])
 
-                "secondaryText" => default' secondaryText ""
-                "secondaryTextLines" => 2
-            ]
+    static member WithCheckbox state (callback : (SyntheticEvent -> unit)) (listItem : ListItem) =    
+        let checkbox = Checkbox(state = state)
 
-        static member WithCheckbox state callback (listItem : ListItem) =
-            let checkbox =
-                Checkbox(state = state)
-                |>! Check callback
-
-            listItem.Properties.Add ("leftCheckbox", box (GenericElement.Transpile checkbox))
-            listItem
+        checkbox.Events <- [ ("onCheck", box callback) ]
+        
+        listItem.Checkbox <- Some checkbox
+        listItem

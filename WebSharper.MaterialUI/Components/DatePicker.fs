@@ -1,33 +1,29 @@
 ﻿namespace WebSharper.MaterialUI
 
-open System.Collections
-
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React
 open WebSharper.React.Bindings
 
-[<AutoOpen>]
 [<JavaScript>]
-module DatePicker =
-    
+type DatePicker(?defaultDate, ?formatter) =
     [<Inline "MaterialUI.DatePicker">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type DatePicker(?defaultDate, ?formatter) =
-        inherit Component(Class)
+    interface Component with
+        member this.Map () =
+            React.CreateElement(class' (), 
+                New [
+                    match defaultDate with
+                    | Some (date : Date) ->
+                        yield "defaultDate" => date
+                    | _ ->
+                        ()
 
-        member val Properties =
-            Generic.List [
-                match defaultDate with
-                | Some (date : Date) ->
-                    yield "defaultDate" => date
-                | _ ->
-                    ()
-
-                match formatter with
-                | Some (func : Date -> string) ->
-                    yield "formatData" => func
-                | _ ->
-                    ()
-            ]
+                    match formatter with
+                    | Some (func : Date -> string) ->
+                        yield "formatData" => func
+                    | _ ->
+                        ()
+                ])

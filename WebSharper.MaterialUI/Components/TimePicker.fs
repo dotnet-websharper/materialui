@@ -1,27 +1,23 @@
 ﻿namespace WebSharper.MaterialUI
 
-open System.Collections
-
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React
 open WebSharper.React.Bindings
 
-[<AutoOpen>]
 [<JavaScript>]
-module TimePicker =
-    
+type TimePicker(?defaultTime) =
     [<Inline "MaterialUI.TimePicker">]
-    let internal Class = X<ReactClass>
+    let class' () = X<ReactClass>
 
-    type TimePicker(?defaultTime) =
-        inherit Component(Class)
-
-        member val Properties =
-            Generic.List [
-                match defaultTime with
-                | Some (time : Date) ->
-                    yield "defaultTime" => time
-                | _ ->
-                    ()
-            ]
+    interface Component with
+        member this.Map () =
+            React.CreateElement(class' (), 
+                New [
+                    match defaultTime with
+                    | Some (time : Date) ->
+                        yield "defaultTime" => time
+                    | _ ->
+                        ()
+                ])
