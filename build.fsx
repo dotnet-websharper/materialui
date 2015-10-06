@@ -5,6 +5,7 @@ open IntelliFactory.Build
 let bt =
     BuildTool().PackageId("WebSharper.MaterialUI")
         .VersionFrom("WebSharper")
+        .WithFSharpVersion(FSharpVersion.FSharp30)
         .WithFramework(fun x -> x.Net40)
 
 let library =
@@ -12,7 +13,7 @@ let library =
         .SourcesFromProject()
         .References(fun ref ->
             [
-                ref.NuGet("WebSharper.React").Reference()
+                ref.NuGet("WebSharper.React").ForceFoundVersion().Reference()
             ])
         .Embed(
             [
