@@ -37,7 +37,12 @@ module Client =
     let Button label =
         RaisedButton(label, wide = true)
 
+#if ZAFIR
+    [<SPAEntryPoint>]
+    let Main() =
+#else
     let Main =
+#endif
         MaterialUI.Context.ThemeManager.SetTheme Theme.Dark
 
         React.Class State.Default
