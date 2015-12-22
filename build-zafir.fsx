@@ -13,7 +13,7 @@ let library =
         .SourcesFromProject()
         .References(fun ref ->
             [
-                ref.NuGet("Zafir.React").ForceFoundVersion().Reference()
+                ref.NuGet("Zafir.React").Latest(true).ForceFoundVersion().Reference()
             ])
         .Embed(
             [
