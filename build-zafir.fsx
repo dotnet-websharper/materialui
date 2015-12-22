@@ -25,7 +25,7 @@ let tests =
         .SourcesFromProject()
         .References(fun ref -> 
             [
-                ref.NuGet("Zafir.React").Reference()
+                ref.NuGet("Zafir.React").Latest(true).Reference()
                 ref.Project library
             ])
 
