@@ -3,17 +3,17 @@
 open IntelliFactory.Build
 
 let bt =
-    BuildTool().PackageId("Zafir.MaterialUI")
-        .VersionFrom("Zafir")
+    BuildTool().PackageId("WebSharper.MaterialUI")
+        .VersionFrom("WebSharper")
         .WithFSharpVersion(FSharpVersion.FSharp30)
         .WithFramework(fun x -> x.Net40)
 
 let library =
-    bt.Zafir.Library("WebSharper.MaterialUI")
+    bt.WebSharper4.Library("WebSharper.MaterialUI")
         .SourcesFromProject()
         .References(fun ref ->
             [
-                ref.NuGet("Zafir.React").Latest(true).ForceFoundVersion().Reference()
+                ref.NuGet("WebSharper.React").Latest(true).ForceFoundVersion().Reference()
             ])
         .Embed(
             [
@@ -21,11 +21,11 @@ let library =
             ])
 
 let tests =
-    bt.Zafir.BundleWebsite("WebSharper.MaterialUI.Tests")
+    bt.WebSharper4.BundleWebsite("WebSharper.MaterialUI.Tests")
         .SourcesFromProject()
         .References(fun ref -> 
             [
-                ref.NuGet("Zafir.React").Latest(true).Reference()
+                ref.NuGet("WebSharper.React").Latest(true).Reference()
                 ref.Project library
             ])
 
@@ -36,7 +36,7 @@ bt.Solution [
     bt.NuGet.CreatePackage()
         .Configure(fun configuration ->
             { configuration with
-                Title = Some "Zafir.MaterialUI"
+                Title = Some "WebSharper.MaterialUI"
                 LicenseUrl = Some "http://websharper.com/licensing"
                 ProjectUrl = Some "https://bitbucket.org/intellifactory/websharper.materialui"
                 Description = "WebSharper bindings for Material UI"
