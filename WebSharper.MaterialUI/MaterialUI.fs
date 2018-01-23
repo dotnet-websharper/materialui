@@ -19,7 +19,6 @@ type ThemeManager [<Inline "new MaterialUI.Styles.ThemeManager()">] () =
     [<Inline "$0.setTheme($0.types[$1])">]
     member this.SetTheme (_ : Theme) = ()
 
-[<Require(typeof<MaterialUI>)>]
 [<JavaScript>]
 module MaterialUI =
     
@@ -50,5 +49,6 @@ module Events =
         component'.Events <- [ ("onCheck", callback) ]
         component'
 
-[<assembly: System.Web.UI.WebResource("material-ui.min.js", "text/javascript")>]
+[<assembly: Require(typeof<MaterialUI>)>]
+[<assembly: WebResource("WebSharper.MaterialUI.material-ui.min.js", "text/javascript")>]
 do ()

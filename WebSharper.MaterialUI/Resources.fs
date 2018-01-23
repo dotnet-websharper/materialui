@@ -6,4 +6,4 @@ open WebSharper
 module Resources =
     
     type MaterialUI() =
-        inherit Resources.BaseResource("material-ui.min.js")
+        inherit Resources.BaseResource("WebSharper.MaterialUI.material-ui.min.js")

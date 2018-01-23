@@ -4,3 +4,9 @@ bin/
 obj/
 Content/
 build/
+
+bin/
+obj/
+/.fake/
+/paket-files/
+/.vscode/
