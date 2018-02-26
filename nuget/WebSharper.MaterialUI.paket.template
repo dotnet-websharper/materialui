@@ -16,7 +16,7 @@ files
     ../WebSharper.MaterialUI/bin/Release/netstandard2.0/WebSharper.MaterialUI.dll ==> lib/netstandard2.0
     ../WebSharper.MaterialUI/bin/Release/netstandard2.0/WebSharper.MaterialUI.xml ==> lib/netstandard2.0
 dependencies
-        WebSharper ~> 4.2.2-beta
-        WebSharper.React ~> 4.2.0-beta
+        WebSharper ~> 4.2.3
+        WebSharper.React ~> 4.2.0
 frameworkAssemblies
         System.Web
