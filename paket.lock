@@ -1,10 +1,11 @@
 STORAGE: NONE
 NUGET
-  remote: https://nuget.intellifactory.com/nuget
+  remote: https://api.nuget.org/v3/index.json
     WebSharper (4.4.0.280)
     WebSharper.FSharp (4.4.0.280)
       WebSharper (4.4.0.280)
-    WebSharper.React (4.4.0.120)
+  remote: https://nuget.intellifactory.com/nuget
+    WebSharper.React (4.4.0.121)
       WebSharper (>= 4.4 < 4.5)
 
 GROUP build
