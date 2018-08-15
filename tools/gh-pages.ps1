@@ -1,6 +1,6 @@
 # pushes build/html to gh-pages branch
 
-param ([string] $env = "local", [string] $action = "publish", $gitURL)
+param ([string] $env = "local", [string] $action = "publish", [string] $gitURL)
 
 $msg = 'gh-pages.ps1: build/html -> gh-pages'
 
