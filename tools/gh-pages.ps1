@@ -1,9 +1,8 @@
 # pushes build/html to gh-pages branch
 
-param ([string] $env = "local", [string] $action = "publish")
+param ([string] $env = "local", [string] $action = "publish", $gitURL)
 
 $msg = 'gh-pages.ps1: build/html -> gh-pages'
-$gitURL = "https://github.com/intellifactory/websharper.babylonjs.samples.git"
 
 write-host -foregroundColor "green" "=====> $msg"
 
