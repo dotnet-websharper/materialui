@@ -10,6 +10,10 @@ function clearDir() {
   rm -r build/gh-pages -errorAction ignore
 }
 
+if ($gitURL -eq "") {
+  $gitURL = git remote get-url origin
+}
+
 if ($env -eq "appveyor") {
   clearDir
   $d = mkdir -force build
