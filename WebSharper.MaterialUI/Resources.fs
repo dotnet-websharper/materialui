@@ -2,7 +2,6 @@
 
 open WebSharper
 
-[<AutoOpen>]
 module Resources =
 
     [<Require(typeof<WebSharper.React.Bindings.Resources.ReactDOM>)>]

@@ -7,12 +7,11 @@ open WebSharper.React.Bindings
 open WebSharper.React
 open WebSharper.React.Html
 open WebSharper.MaterialUI
+open WebSharper.MaterialUI.MUI
 module MUI = WebSharper.MaterialUI.Components
 
 [<JavaScript>]
 module Client =
-
-    // let x = React.Make AppBar (AppBar.Config(Color = Color.Primary))
 
     type Task =
         {
@@ -44,86 +43,104 @@ module Client =
 
         do this.SetInitialState State.Default
 
-        let classes = this.Props.classes
+        member private this.SetInput(ev: SyntheticEvent) =
+            this.SetState { this.State with Input = ev.Target?value }
 
-        // TODO: theme
+        member private this.AddTask() =
+            if this.State.Input.Length > 0 && not (List.exists (fun task -> task.Name = this.State.Input) this.State.Tasks) then
+                { this.State with
+                    Input = ""
+                    Tasks =
+                        { Name = this.State.Input; State = false } :: this.State.Tasks }
+                |> this.SetState
+
+        member private this.ClearCompleted() =
+            { this.State with
+                Tasks =
+                    this.State.Tasks
+                    |> List.filter (fun task -> not task.State) }
+            |> this.SetState
+
+        member private this.ToggleTask(task) =
+            { this.State with
+                Tasks =
+                    this.State.Tasks
+                    |> List.map (fun x ->
+                        if x.Name = task.Name then
+                            { task with State = not task.State }
+                        else
+                            x
+                    ) }
+            |> this.SetState
+
         override this.Render() =
-            MUI.Grid [
-                attr.className classes.root
-                "container" => true
-                "direction" => "column"
-            ] [
-                MUI.Grid [
-                    "item" => true
-                    "container" => true
+            MUI.Paper [attr.className this.Props.Classes.["root"]] [
+                MUI.Button [
+                    "variant" => "contained"
+                    "fullWidth" => true
+                    "color" => "secondary"
+                    on.click (fun _ -> this.ClearCompleted())
+                ] [text "Clear completed tasks"]
+                MUI.List [
+                    attr.className this.Props.Classes.["list"]
+                    "subheader" => MUI.ListSubheader [] [text "MyTasks"]
                 ] [
-                    MUI.Grid ["item" => true; "xs" => 9] [
-                        MUI.TextField [
-                            "fullWidth" => true
-                            attr.value this.State.Input
-                            attr.placeholder "What needs to be done?"
-                            on.change (fun (ev: SyntheticEvent) ->
-                                this.SetState { this.State with Input = ev.Target?value })
-                        ] []
-                    ]
-                    MUI.Grid ["item" => true; "xs" => 3] [
-                        MUI.Button [
-                            on.click (fun _ ->
-                                if this.State.Input.Length > 0 && not (List.exists (fun task -> task.Name = this.State.Input) this.State.Tasks) then
-                                    { this.State with
-                                        Input = ""
-                                        Tasks =
-                                            { Name = this.State.Input; State = false } :: this.State.Tasks }
-                                    |> this.SetState)
-                        ] [text "Add"]
-                    ]
+                    for task in this.State.Tasks ->
+                        MUI.ListItem [
+                            "button" => true
+                            on.click (fun _ -> this.ToggleTask(task))
+                        ] [
+                            MUI.Checkbox ["checked" => task.State] []
+                            MUI.ListItemText [] [text task.Name]
+                        ]
                 ]
-                MUI.Grid ["item" => true] [
-                    MUI.Button [
-                        on.click (fun _ ->
-                            { this.State with
-                                Tasks =
-                                    this.State.Tasks
-                                    |> List.filter (fun task -> not task.State) }
-                            |> this.SetState)
-                    ] [text "Clear completed tasks"]
-                ]
-                MUI.Grid ["item" => true] [
-                    MUI.List ["subheader" => MUI.ListSubheader [] [text "My tasks"]] (
-                        this.State.Tasks
-                        |> List.map (fun task ->
-                            MUI.ListItem [
-                                "button" => true
-                                attr.className classes.listItem
-                                on.click (fun _ ->
-                                    { this.State with
-                                        Tasks =
-                                            this.State.Tasks
-                                            |> List.map (fun x ->
-                                                if x.Name = task.Name then
-                                                    { task with State = not task.State }
-                                                else
-                                                    x
-                                            ) }
-                                    |> this.SetState)
-                            ] [
-                                MUI.Checkbox ["checked" => task.State] []
-                                MUI.ListItemText [] [text task.Name]
-                            ]
-                        )
-                    )
-                ]
+                
+                MUI.TextField [
+                    "fullWidth" => true
+                    "margin" => "normal"
+                    "autoFocus" => true
+                    attr.value this.State.Input
+                    attr.placeholder "What needs to be done?"
+                    on.change this.SetInput
+                ] []
+                MUI.Button [
+                    "variant" => "contained"
+                    "fullWidth" => true
+                    "color" => "primary"
+                    on.click (fun _ -> this.AddTask())
+                ] [text "Add"]
             ]
+
+    let MyTheme =
+        Theme(
+            Palette = Palette(
+                Primary = Colors.Green,
+                Type = Dark
+            )
+        )
+
+    let MyStyles (theme: Theme) =
+        New [
+            "root" => New [
+                "marginTop" => theme?spacing?unit
+                "marginBottom" => theme?spacing?unit
+                "marginLeft" => theme?spacing?unit
+                "marginRight" => theme?spacing?unit
+                "flex" => 1
+                "display" => "flex"
+                "flexDirection" => "column"
+            ]
+            "list" => New [
+                "flex" => 1
+                "overflowY" => "auto"
+            ]
+        ]
 
     [<SPAEntryPoint>]
     let Main() =
-        // MaterialUI.Context.ThemeManager.SetTheme Theme.Dark
-
-        MaterialUI.WithStyles (fun theme -> New [
-            "root" => New [
-                // "width" => "100%"
-                // "maxWidth" => 360
-                // "backgroundColor" => theme?palette?background?paper
-            ]
-        ]) Main
+        let theme = CreateTheme MyTheme
+        ThemeProvider theme [
+            CssBaseline()
+            WithStyles MyStyles Main
+        ]
         |> React.Mount JS.Document.Body
