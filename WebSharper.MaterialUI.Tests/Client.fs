@@ -3,12 +3,16 @@ namespace WebSharper.MaterialUI.Tests
 open WebSharper
 open WebSharper.JavaScript
 
+open WebSharper.React.Bindings
 open WebSharper.React
+open WebSharper.React.Html
 open WebSharper.MaterialUI
+open WebSharper.MaterialUI.MUI
+module MUI = WebSharper.MaterialUI.Components
 
 [<JavaScript>]
 module Client =
-    
+
     type Task =
         {
             Name  : string
@@ -33,63 +37,110 @@ module Client =
                         { Name = "buy milk"; State = false }
                     ]
             }
-    
-    let Button label =
-        RaisedButton(label, wide = true)
+
+    type Main(props) as this =
+        inherit React.Component<Styles, State>(props)
+
+        do this.SetInitialState State.Default
+
+        member private this.SetInput(ev: SyntheticEvent) =
+            this.SetState { this.State with Input = ev.Target?value }
+
+        member private this.AddTask() =
+            if this.State.Input.Length > 0 && not (List.exists (fun task -> task.Name = this.State.Input) this.State.Tasks) then
+                { this.State with
+                    Input = ""
+                    Tasks =
+                        { Name = this.State.Input; State = false } :: this.State.Tasks }
+                |> this.SetState
+
+        member private this.ClearCompleted() =
+            { this.State with
+                Tasks =
+                    this.State.Tasks
+                    |> List.filter (fun task -> not task.State) }
+            |> this.SetState
+
+        member private this.ToggleTask(task) =
+            { this.State with
+                Tasks =
+                    this.State.Tasks
+                    |> List.map (fun x ->
+                        if x.Name = task.Name then
+                            { task with State = not task.State }
+                        else
+                            x
+                    ) }
+            |> this.SetState
+
+        override this.Render() =
+            MUI.Paper [attr.className this.Props.Classes.["root"]] [
+                MUI.Button [
+                    "variant" => "contained"
+                    "fullWidth" => true
+                    "color" => "secondary"
+                    on.click (fun _ -> this.ClearCompleted())
+                ] [text "Clear completed tasks"]
+                MUI.List [
+                    attr.className this.Props.Classes.["list"]
+                    "subheader" => MUI.ListSubheader [] [text "MyTasks"]
+                ] [
+                    for task in this.State.Tasks ->
+                        MUI.ListItem [
+                            "button" => true
+                            on.click (fun _ -> this.ToggleTask(task))
+                        ] [
+                            MUI.Checkbox ["checked" => task.State] []
+                            MUI.ListItemText [] [text task.Name]
+                        ]
+                ]
+                
+                MUI.TextField [
+                    "fullWidth" => true
+                    "margin" => "normal"
+                    "autoFocus" => true
+                    attr.value this.State.Input
+                    attr.placeholder "What needs to be done?"
+                    on.change this.SetInput
+                ] []
+                MUI.Button [
+                    "variant" => "contained"
+                    "fullWidth" => true
+                    "color" => "primary"
+                    on.click (fun _ -> this.AddTask())
+                ] [text "Add"]
+            ]
+
+    let MyTheme =
+        Theme(
+            Palette = Palette(
+                Primary = Colors.Green,
+                Type = Dark
+            )
+        )
+
+    let MyStyles (theme: Theme) =
+        New [
+            "root" => New [
+                "marginTop" => theme?spacing?unit
+                "marginBottom" => theme?spacing?unit
+                "marginLeft" => theme?spacing?unit
+                "marginRight" => theme?spacing?unit
+                "flex" => 1
+                "display" => "flex"
+                "flexDirection" => "column"
+            ]
+            "list" => New [
+                "flex" => 1
+                "overflowY" => "auto"
+            ]
+        ]
 
     [<SPAEntryPoint>]
     let Main() =
-        MaterialUI.Context.ThemeManager.SetTheme Theme.Dark
-
-        React.Class State.Default
-        <| fun this ->
-            Element.Wrap [
-                Element.Wrap [
-                    TextField("What needs to be done?", this.State.Input, true)
-                    |> Events.OnChange (fun event ->
-                        { this.State with
-                            Input = event?target?value }
-                        |> this.SetState
-                    )
-
-                    Button "Add"
-                    |> Events.OnClick (fun _ ->
-                        if this.State.Input.Length > 0 && not (List.exists (fun task -> task.Name = this.State.Input) this.State.Tasks) then
-                            { this.State with
-                                Input = ""
-                                Tasks =
-                                    { Name = this.State.Input; State = false } :: this.State.Tasks }
-                            |> this.SetState
-                    )
-                ]
-                Button "Clear completed tasks"
-                |> Events.OnClick (fun _ ->
-                    { this.State with
-                        Tasks =
-                            this.State.Tasks
-                            |> List.filter (fun task -> not task.State) }
-                    |> this.SetState
-                )
-
-                List("My tasks", 
-                    this.State.Tasks
-                    |> List.map (fun task ->
-                        ListItem task.Name
-                        |> ListItem.WithCheckbox task.State (fun _ ->
-                            { this.State with
-                                Tasks =
-                                    this.State.Tasks
-                                    |> List.map (fun x ->
-                                        if x.Name = task.Name then
-                                            { task with
-                                                State = not task.State }
-                                        else
-                                            x
-                                    ) }
-                            |> this.SetState
-                        )
-                        :> _
-                    ))
-            ]
-        |> Class.WithContext MaterialUI.Context
+        let theme = CreateTheme MyTheme
+        ThemeProvider theme [
+            CssBaseline()
+            WithStyles MyStyles Main
+        ]
         |> React.Mount JS.Document.Body
