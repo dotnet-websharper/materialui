@@ -2,53 +2,48 @@ namespace WebSharper.MaterialUI
 
 open WebSharper
 open WebSharper.JavaScript
-
 open WebSharper.React
 
-[<JavaScript>]
-type Theme =
-    static member Light = As<Theme> "LIGHT"
-    static member Dark  = As<Theme> "DARK"
+type Classes =
+    {
+        root: string
+        listItem: string
+    }
 
-[<JavaScript>]
-type ThemeManager [<Inline "new MaterialUI.Styles.ThemeManager()">] () =
-        
-    [<Inline "$0.getCurrentTheme()">]
-    member this.GetCurrentTheme () = X<ThemeManager>
+type Styles =
+    {
+        classes: Classes
+    }
 
-    [<Inline "$0.setTheme($0.types[$1])">]
-    member this.SetTheme (_ : Theme) = ()
+[<Stub>]
+type internal MUI' =
+    member this.withStyles(styles: obj -> obj) = X<(Styles -> #React.Component<Styles, _>) -> React.Class>
 
-[<JavaScript>]
+[<AutoOpen>]
 module MaterialUI =
-    
-    type Context =
-        {
-            [<Name "muiTheme">] ThemeManager : ThemeManager
-        }
 
-        interface React.Context
+    [<Inline "$global['material-ui']">]
+    let internal MUI = X<MUI'>
 
-    let Context =
-        {
-            ThemeManager = ThemeManager().GetCurrentTheme()
-        }
+    [<Macro(typeof<React.Macros.Make>, 1); Inline>]
+    let WithStyles styles (ctor: Styles -> #React.Component<Styles, _>) : React.Element =
+        React.CreateElement(MUI.withStyles styles ctor, null)
 
-[<JavaScript>]
-module Events =
-    
-    let OnChange callback (component' : TextField) =
-        component'.Events <- [ ("onChange", callback) ]
-        component'
+// [<Stub; AbstractClass>]
+// type Button =
+//     inherit React.Component<obj, unit>
 
-    let OnClick callback (component' : RaisedButton) =
-        component'.Events <- [ ("onClick", callback) ]
-        component'
+//     [<Inline>]
+//     static member Make props children =
+//         React.Element (JS.Inline "$global['material-ui'].Button") props children
 
-    let OnCheck callback (component' : Checkbox) =
-        component'.Events <- [ ("onCheck", callback) ]
-        component'
+// [<Stub; AbstractClass>]
+// type TextField =
+//     inherit React.Component<obj, unit>
+
+//     [<Inline>]
+//     static member Make props children =
+//         React.Element (JS.Inline "$global['material-ui'].TextField") props children
 
 [<assembly: Require(typeof<MaterialUI>)>]
-[<assembly: WebResource("WebSharper.MaterialUI.material-ui.min.js", "text/javascript")>]
 do ()
