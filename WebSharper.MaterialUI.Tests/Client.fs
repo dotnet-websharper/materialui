@@ -7,8 +7,6 @@ open WebSharper.React.Bindings
 open WebSharper.React
 open WebSharper.React.Html
 open WebSharper.MaterialUI
-open WebSharper.MaterialUI.MUI
-module MUI = WebSharper.MaterialUI.Components
 
 [<JavaScript>]
 module Client =
@@ -39,7 +37,7 @@ module Client =
             }
 
     type Main(props) as this =
-        inherit React.Component<Styles, State>(props)
+        inherit React.Component<MUI.Styles, State>(props)
 
         do this.SetInitialState State.Default
 
@@ -112,20 +110,20 @@ module Client =
             ]
 
     let MyTheme =
-        Theme(
-            Palette = Palette(
-                Primary = Colors.Green,
-                Type = Dark
+        MUI.Theme(
+            Palette = MUI.Palette(
+                Primary = MUI.Colors.Green,
+                Type = MUI.Dark
             )
         )
 
-    let MyStyles (theme: Theme) =
+    let MyStyles (theme: MUI.Theme) =
         New [
             "root" => New [
-                "marginTop" => theme?spacing?unit
-                "marginBottom" => theme?spacing?unit
-                "marginLeft" => theme?spacing?unit
-                "marginRight" => theme?spacing?unit
+                "marginTop" => theme.Spacing.Unit
+                "marginBottom" => theme.Spacing.Unit
+                "marginLeft" => theme.Spacing.Unit
+                "marginRight" => theme.Spacing.Unit
                 "flex" => 1
                 "display" => "flex"
                 "flexDirection" => "column"
@@ -138,9 +136,9 @@ module Client =
 
     [<SPAEntryPoint>]
     let Main() =
-        let theme = CreateTheme MyTheme
-        ThemeProvider theme [
-            CssBaseline()
-            WithStyles MyStyles Main
+        let theme = MUI.CreateTheme MyTheme
+        MUI.ThemeProvider theme [
+            MUI.CssBaseline()
+            MUI.WithStyles MyStyles Main
         ]
         |> React.Mount JS.Document.Body

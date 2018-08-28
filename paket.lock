@@ -1,10 +1,10 @@
 STORAGE: NONE
 NUGET
   remote: https://daily.websharper.com/nuget
-    WebSharper (4.5.1.297)
-    WebSharper.FSharp (4.5.1.297)
-      WebSharper (4.5.1.297)
-    WebSharper.React (4.5.1.125)
+    WebSharper (4.5.1.298)
+    WebSharper.FSharp (4.5.1.298)
+      WebSharper (4.5.1.298)
+    WebSharper.React (4.5.1.126)
       WebSharper (>= 4.5.1 < 4.6)
 
 GROUP build

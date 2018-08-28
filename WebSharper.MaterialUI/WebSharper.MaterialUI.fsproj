@@ -10,7 +10,6 @@
   <ItemGroup>
     <Compile Include="Resources.fs" />
     <Compile Include="MaterialUI.fs" />
-    <Compile Include="Components.fs" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <Reference Include="System.Web" />
