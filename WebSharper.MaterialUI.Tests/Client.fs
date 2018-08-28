@@ -74,18 +74,19 @@ module Client =
         override this.Render() =
             MUI.Paper [attr.className this.Props.Classes.["root"]] [
                 MUI.Button [
-                    "variant" => "contained"
-                    "fullWidth" => true
-                    "color" => "secondary"
+                    attr.variant MUI.ButtonVariant.Contained
+                    attr.fullWidth true
+                    attr.color MUI.Color.Secondary
                     on.click (fun _ -> this.ClearCompleted())
                 ] [text "Clear completed tasks"]
                 MUI.List [
                     attr.className this.Props.Classes.["list"]
-                    "subheader" => MUI.ListSubheader [] [text "MyTasks"]
+                    attr.subheader (MUI.ListSubheader [] [text "MyTasks"])
                 ] [
                     for task in this.State.Tasks ->
                         MUI.ListItem [
-                            "button" => true
+                            attr.``component`` MUI.ButtonBase
+                            attr.button true
                             on.click (fun _ -> this.ToggleTask(task))
                         ] [
                             MUI.Checkbox ["checked" => task.State] []
@@ -94,17 +95,17 @@ module Client =
                 ]
                 
                 MUI.TextField [
-                    "fullWidth" => true
-                    "margin" => "normal"
-                    "autoFocus" => true
+                    attr.fullWidth true
+                    attr.margin MUI.Margin.Normal
+                    attr.autoFocus true
                     attr.value this.State.Input
                     attr.placeholder "What needs to be done?"
                     on.change this.SetInput
                 ] []
                 MUI.Button [
-                    "variant" => "contained"
-                    "fullWidth" => true
-                    "color" => "primary"
+                    attr.variant MUI.ButtonVariant.Contained
+                    attr.fullWidth true
+                    attr.color MUI.Color.Primary
                     on.click (fun _ -> this.AddTask())
                 ] [text "Add"]
             ]

@@ -22,6 +22,8 @@ module internal ComponentMacros =
 [<Stub; Name "material-ui">]
 module MUI =
 
+    // BEGIN theme and style
+
     [<Stub>]
     type Styles private () =
         [<Name "classes">]
@@ -75,7 +77,7 @@ module MUI =
         [<Name "xl">]
         member val Xl = X<int> with get, set
 
-    type BreakpointKey =
+    type SizeKey =
         | [<Constant "xs">] Xs
         | [<Constant "sm">] Sm
         | [<Constant "md">] Md
@@ -87,15 +89,15 @@ module MUI =
         [<Name "values">]
         member val Values = X<BreakpointValues> with get, set
         [<Name "up">]
-        member this.Up(key: BreakpointKey) = X<string>
+        member this.Up(key: SizeKey) = X<string>
         [<Name "down">]
-        member this.Down(key: BreakpointKey) = X<string>
+        member this.Down(key: SizeKey) = X<string>
         [<Name "only">]
-        member this.Only(key: BreakpointKey) = X<string>
+        member this.Only(key: SizeKey) = X<string>
         [<Name "between">]
-        member this.Between(start: BreakpointKey, ``end``: BreakpointKey) = X<string>
+        member this.Between(start: SizeKey, ``end``: SizeKey) = X<string>
 
-    type Direction =
+    type TextDirection =
         | [<Constant "ltr">] Ltr
         | [<Constant "rtl">] Rtl
 
@@ -210,7 +212,7 @@ module MUI =
         [<Name "breakpoints">]
         member val Breakpoints = X<Breakpoints> with get, set
         [<Name "direction">]
-        member val Direction = X<Direction> with get, set
+        member val Direction = X<TextDirection> with get, set
         [<Name "overrides">]
         member val Overrides = X<obj> with get, set
         [<Name "palette">]
@@ -300,6 +302,8 @@ module MUI =
     [<Inline>]
     let CssBaseline () : React.Element =
         React.CreateElement(CssBaseline_, null)
+
+    // END theme and style
 
     // BEGIN components
 
@@ -794,6 +798,277 @@ module MUI =
     let Zoom props children = React.Element Zoom_ props children
 
     // END components
+
+    // BEGIN attr value types
+
+    type AlignContent =
+        | [<Constant "stretch">] Stretch
+        | [<Constant "center">] Center
+        | [<Constant "flex-start">] FlexStart
+        | [<Constant "flex-end">] FlexEnd
+        | [<Constant "space-between">] SpaceBetween
+        | [<Constant "space-around">] SpaceAround
+
+    type AlignItems =
+        | [<Constant "flex-start">] FlexStart
+        | [<Constant "center">] Center
+        | [<Constant "flex-end">] FlexEnd
+        | [<Constant "stretch">] Stretch
+        | [<Constant "baseline">] Baseline
+
+    type TextAlign =
+        | [<Constant "inherit">] Inherit
+        | [<Constant "left">] Left
+        | [<Constant "center">] Center
+        | [<Constant "right">] Right
+        | [<Constant "justify">] Justify
+
+    type Anchor =
+        | [<Constant "left">] Left
+        | [<Constant "right">] Right
+        | [<Constant "top">] Top
+        | [<Constant "bottom">] Bottom
+
+    type Direction =
+        | [<Constant "left">] Left
+        | [<Constant "right">] Right
+        | [<Constant "up">] Up
+        | [<Constant "down">] Down
+
+    type HOrigin =
+        | [<Constant "left">] Left
+        | [<Constant "center">] Center
+        | [<Constant "right">] Right
+        [<Inline "$0">]
+        static member Value (i: int) = X<HOrigin>
+
+    type VOrigin =
+        | [<Constant "top">] Top
+        | [<Constant "center">] Center
+        | [<Constant "bottom">] Bottom
+        [<Inline "$0">]
+        static member Value (i: int) = X<HOrigin>
+
+    type Origin =
+        {
+            [<Name "horizontal">] Horizontal : HOrigin
+            [<Name "vertical">] Vertical : VOrigin
+        }
+
+    type Orientation =
+        | [<Constant "horizontal">] Horizontal
+        | [<Constant "vertical">] Vertical
+
+    type AnchorPosition =
+        {
+            [<Name "left">] Left : int
+            [<Name "top">] Top: int
+        }
+
+    type AnchorReference =
+        | [<Constant "anchorEl">] AnchorEl
+        | [<Constant "anchorPosition">] AnchorPosition
+        | [<Constant "none">] None
+
+    type Color =
+        | [<Constant "inherit">] Inherit
+        | [<Constant "primary">] Primary
+        | [<Constant "secondary">] Secondary
+        | [<Constant "textPrimary">] TextPrimary
+        | [<Constant "textSecondary">] TextSecondary
+        | [<Constant "default">] Default
+        | [<Constant "action">] Action
+        | [<Constant "error">] Error
+        | [<Constant "disabled">] Disabled
+
+    type FlexDirection =
+        | [<Constant "row">] Row
+        | [<Constant "row-reverse">] RowReverse
+        | [<Constant "column">] Column
+        | [<Constant "column-reverse">] ColumnReverse
+
+    type FontSize =
+        | [<Constant "inherit">] Inherit
+        | [<Constant "default">] Default
+
+    type HPosition =
+        | [<Constant "left">] Left
+        | [<Constant "right">] Right
+
+    type VPosition =
+        | [<Constant "top">] Top
+        | [<Constant "bottom">] Bottom
+
+    type HeadlineMapping [<Inline "{}">] () =
+        [<Name "display4">]
+        member val Display4 = X<string> with get, set
+        [<Name "display3">]
+        member val Display3 = X<string> with get, set
+        [<Name "display2">]
+        member val Display2 = X<string> with get, set
+        [<Name "display1">]
+        member val Display1 = X<string> with get, set
+        [<Name "headline">]
+        member val Headline = X<string> with get, set
+        [<Name "title">]
+        member val Title = X<string> with get, set
+        [<Name "subheading">]
+        member val Subheading = X<string> with get, set
+        [<Name "body2">]
+        member val Body2 = X<string> with get, set
+        [<Name "body1">]
+        member val Body1 = X<string> with get, set
+
+    type Implementation =
+        | [<Constant "js">] Js
+        | [<Constant "css">] Css
+
+    type Justify =
+        | [<Constant "flex-start">] FlexStart
+        | [<Constant "center">] Center
+        | [<Constant "flex-end">] FlexEnd
+        | [<Constant "space-between">] SpaceBetween
+        | [<Constant "space-around">] SpaceAround
+        | [<Constant "space-evenly">] SpaceEvenly
+
+    type Placement =
+        | [<Constant "bottom-end">] BottomEnd
+        | [<Constant "bottom-start">] BottomStart
+        | [<Constant "bottom">] Bottom
+        | [<Constant "left-end">] LeftEnd
+        | [<Constant "left-start">] LeftStart
+        | [<Constant "left">] Left
+        | [<Constant "right-end">] RightEnd
+        | [<Constant "right-start">] RightStart
+        | [<Constant "right">] Right
+        | [<Constant "top-end">] TopEnd
+        | [<Constant "top-start">] TopStart
+        | [<Constant "top">] Top
+        | [<Constant "end">] End
+        | [<Constant "start">] Start
+
+    type LabelDisplayedRowsArgs =
+        [<Name "from">]
+        member this.From = X<int>
+        [<Name "to">]
+        member this.To = X<int>
+        [<Name "count">]
+        member this.Count = X<int>
+
+    type Margin =
+        | [<Constant "none">] None
+        | [<Constant "dense">] Dense
+        | [<Constant "normal">] Normal
+
+    type MaxWidth =
+        | [<Constant "xs">] Xs
+        | [<Constant "sm">] Sm
+        | [<Constant "md">] Md
+
+    type MouseEvent =
+        | [<Constant "onClick">] OnClick
+        | [<Constant "onMouseDown">] OnMouseDown
+        | [<Constant "onMouseUp">] OnMouseUp
+
+    type Position =
+        | [<Constant "fixed">] Fixed
+        | [<Constant "absolute">] Absolute
+        | [<Constant "sticky">] Sticky
+        | [<Constant "static">] Static
+
+    type DialogScroll =
+        | [<Constant "body">] Body
+        | [<Constant "paper">] Paper
+
+    type Size =
+        | [<Constant "small">] Small
+        | [<Constant "medium">] Medium
+        | [<Constant "large">] Large
+
+    type Auto =
+        | [<Constant "auto">] Auto
+
+    type OnOff =
+        | [<Constant "on">] On
+        | [<Constant "off">] Off
+
+    type SortDirection =
+        | [<Constant "asc">] Asc
+        | [<Constant "desc">] Desc
+
+    type TablePadding =
+        | [<Constant "default">] Default
+        | [<Constant "checkbox">] Checkbox
+        | [<Constant "dense">] Dense
+        | [<Constant "none">] None
+
+    type TouchEvent =
+        | [<Constant "onTouchStart">] OnTouchStart
+        | [<Constant "onTouchEnd">] OnTouchEnd
+
+    [<Stub>]
+    type Duration [<Inline "{}">] () =
+        [<Name "enter">]
+        member val Enter = X<int> with get, set
+        [<Name "exit">]
+        member val Exit = X<int> with get, set
+
+    type ButtonVariant =
+        | [<Constant "text">] Text
+        | [<Constant "flat">] Flat
+        | [<Constant "outlined">] Outlined
+        | [<Constant "contained">] Contained
+        | [<Constant "raised">] Raised
+        | [<Constant "fab">] Fab
+        | [<Constant "extendedFab">] ExtendedFab
+
+    type DrawerVariant =
+        | [<Constant "permanent">] Permanent
+        | [<Constant "persistent">] Persistent
+        | [<Constant "temporary">] Temporary
+
+    type MobileStepperVariant =
+        | [<Constant "text">] Text
+        | [<Constant "dots">] Dots
+        | [<Constant "progress">] Progress
+
+    type ProgressVariant =
+        | [<Constant "determinate">] Determinate
+        | [<Constant "indeterminate">] Indeterminate
+        | [<Constant "static">] Static
+        | [<Constant "buffer">] Buffer
+        | [<Constant "query">] Query
+
+    type TableCellVariant =
+        | [<Constant "head">] Head
+        | [<Constant "body">] Body
+        | [<Constant "footer">] Footer
+
+    type ToolbarVariant =
+        | [<Constant "regular">] Regular
+        | [<Constant "dense">] Dense
+
+    type TypographyVariant =
+        | [<Constant "display4">] Display4
+        | [<Constant "display3">] Display3
+        | [<Constant "display2">] Display2
+        | [<Constant "display1">] Display1
+        | [<Constant "headline">] Headline
+        | [<Constant "title">] Title
+        | [<Constant "subheading">] Subheading
+        | [<Constant "body2">] Body2
+        | [<Constant "body1">] Body1
+        | [<Constant "caption">] Caption
+        | [<Constant "button">] Button
+
+    type Wrap =
+        | [<Constant "nowrap">] Nowrap
+        | [<Constant "wrap">] Wrap
+        | [<Constant "wrap-reverse">] WrapReverse
+
+    type ModalManager () = class end
+
+    // END attr value types
 
 [<assembly: Require(typeof<Resources.MaterialUI>)>]
 do ()
