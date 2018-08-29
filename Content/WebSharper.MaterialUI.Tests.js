@@ -336,7 +336,7 @@ if (!console) {
 (function()
 {
  "use strict";
- var Global,WebSharper,MaterialUI,Tests,Client,Operators,React,Component,Main,React$1,ReactModule,EventTarget,Node,JavaScript,Pervasives,Arrays,Unchecked,Ref,State,WindowOrWorkerGlobalScope,SC$1,List,T,Enumerator,Task,Obj,Error,InvalidOperationException,T$1,Object,Seq,ReactDOM,IntelliFactory,Runtime;
+ var Global,WebSharper,MaterialUI,Tests,Client,Operators,React,Component,Main,React$1,ReactModule,EventTarget,Node,JavaScript,Pervasives,Arrays,Unchecked,Ref,State,WindowOrWorkerGlobalScope,SC$1,List,T,Enumerator,Task,Obj,Error,InvalidOperationException,T$1,Object,Seq,ReactDOM,_materialui,IntelliFactory,Runtime;
  Global=self;
  WebSharper=Global.WebSharper=Global.WebSharper||{};
  MaterialUI=WebSharper.MaterialUI=WebSharper.MaterialUI||{};
@@ -369,14 +369,14 @@ if (!console) {
  Object=Global.Object;
  Seq=WebSharper.Seq=WebSharper.Seq||{};
  ReactDOM=Global.ReactDOM;
+ _materialui=Global["material-ui"];
  IntelliFactory=Global.IntelliFactory;
  Runtime=IntelliFactory&&IntelliFactory.Runtime;
  Client.Main$1=function()
  {
-  var theme,config,children;
-  ReactDOM.render((theme=(config=Client.MyTheme(),self["material-ui"].createMuiTheme(config)),(children=[React.createElement(self["material-ui"].CssBaseline,null),React.createElement((self["material-ui"].withStyles(Client.MyStyles))(Main.New),null)],React.createElement(self["material-ui"].MuiThemeProvider,{
-   theme:theme
-  },Arrays.ofSeq(children)))),self.document.body);
+  ReactDOM.render(React.createElement(Global["material-ui"].MuiThemeProvider,{
+   theme:_materialui.createMuiTheme(Client.MyTheme())
+  },Arrays.ofSeq([React.createElement(_materialui.CssBaseline,null),React.createElement((_materialui.withStyles(Client.MyStyles))(Main.New),null)])),self.document.body);
  };
  Client.MyStyles=function(theme)
  {
@@ -412,31 +412,55 @@ if (!console) {
  Main=Client.Main=Runtime.Class({
   render:function()
   {
-   var $this,props,children,props$1,children$1,props$2;
+   var $this;
    $this=this;
-   props=[["className",this.props.classes.root]];
-   children=[ReactModule.elt(self["material-ui"].Button,[["variant","contained"],["fullWidth",true],["color","secondary"],["onClick",function()
-   {
-    $this.ClearCompleted();
-   }]],["Clear completed tasks"]),(props$1=[["className",this.props.classes.list],["subheader",ReactModule.elt(self["material-ui"].ListSubheader,[],["MyTasks"])]],(children$1=List.ofSeq(Seq.delay(function()
+   return React.createElement(_materialui.Paper,{
+    className:this.props.classes.root
+   },React.createElement(_materialui.Button,{
+    variant:"contained",
+    fullWidth:true,
+    color:"secondary",
+    onClick:function()
+    {
+     $this.ClearCompleted();
+    }
+   },"Clear completed tasks"),ReactModule.elt(_materialui.List,{
+    className:this.props.classes.list,
+    subheader:React.createElement(_materialui.ListSubheader,null,"MyTasks")
+   },List.ofSeq(Seq.delay(function()
    {
     return Seq.map(function(task)
     {
-     var children$2;
-     children$2=[ReactModule.elt(self["material-ui"].Checkbox,[["checked",task.State]],[]),ReactModule.elt(self["material-ui"].ListItemText,[],[task.Name])];
-     return ReactModule.elt(self["material-ui"].ListItem,[["button",true],["onClick",function()
-     {
-      $this.ToggleTask(task);
-     }]],children$2);
+     return React.createElement(_materialui.ListItem,{
+      component:_materialui.ButtonBase,
+      button:true,
+      onClick:function()
+      {
+       $this.ToggleTask(task);
+      }
+     },React.createElement(_materialui.Checkbox,{
+      checked:task.State
+     }),React.createElement(_materialui.ListItemText,null,task.Name));
     },$this.state.Tasks);
-   })),ReactModule.elt(self["material-ui"].List,props$1,children$1))),(props$2=[["fullWidth",true],["margin","normal"],["autoFocus",true],["value",this.state.Input],["placeholder","What needs to be done?"],["onChange",function(a)
-   {
-    $this.SetInput(a);
-   }]],ReactModule.elt(self["material-ui"].TextField,props$2,[])),ReactModule.elt(self["material-ui"].Button,[["variant","contained"],["fullWidth",true],["color","primary"],["onClick",function()
-   {
-    $this.AddTask();
-   }]],["Add"])];
-   return ReactModule.elt(self["material-ui"].Paper,props,children);
+   }))),React.createElement(_materialui.TextField,{
+    fullWidth:true,
+    margin:"normal",
+    autoFocus:true,
+    value:this.state.Input,
+    placeholder:"What needs to be done?",
+    onChange:function(a)
+    {
+     $this.SetInput(a);
+    }
+   }),React.createElement(_materialui.Button,{
+    variant:"contained",
+    fullWidth:true,
+    color:"primary",
+    onClick:function()
+    {
+     $this.AddTask();
+    }
+   },"Add"));
   },
   ClearCompleted:function()
   {
@@ -480,7 +504,7 @@ if (!console) {
  },Main);
  ReactModule.elt=function(name,props,children)
  {
-  return React.createElement(name,Pervasives.NewFromSeq(props),ReactModule.inlineArrayOfSeq(children));
+  return React.createElement(name,props,ReactModule.inlineArrayOfSeq(children));
  };
  ReactModule.inlineArrayOfSeq=function(s)
  {
@@ -647,7 +671,7 @@ if (!console) {
  {
   var r,r$1;
   SC$1.$cctor=Global.ignore;
-  SC$1.MyTheme=(r={},r.palette=(r$1={},r$1.primary=self["material-ui"].colors.green,r$1.type="dark",r$1),r);
+  SC$1.MyTheme=(r={},r.palette=(r$1={},r$1.primary=_materialui.colors.green,r$1.type="dark",r$1),r);
  };
  T=List.T=Runtime.Class({
   GetEnumerator:function()
