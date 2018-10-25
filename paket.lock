@@ -168,8 +168,8 @@ NUGET
       System.Reflection.Extensions (>= 4.3) - restriction: || (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net45)) (== netstandard2.0)
       System.Resources.ResourceManager (>= 4.3) - restriction: || (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net45)) (== netstandard2.0)
       System.Runtime (>= 4.3) - restriction: || (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net45)) (== netstandard2.0)
-    System.Net.Http (4.3.3) - restriction: || (&& (== net461) (>= dnxcore50) (>= netstandard1.6)) (&& (== net461) (< net45) (>= netstandard1.6)) (== netstandard2.0)
-      Microsoft.NETCore.Platforms (>= 1.1) - restriction: || (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net45)) (== netstandard2.0)
+    System.Net.Http (4.3.4) - restriction: || (&& (== net461) (>= dnxcore50) (>= netstandard1.6)) (&& (== net461) (< net45) (>= netstandard1.6)) (== netstandard2.0)
+      Microsoft.NETCore.Platforms (>= 1.1.1) - restriction: || (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net45)) (== netstandard2.0)
       runtime.native.System (>= 4.3) - restriction: || (&& (== net461) (< net45) (>= netstandard1.6)) (== netstandard2.0)
       runtime.native.System.Net.Http (>= 4.3) - restriction: || (&& (== net461) (< net45) (>= netstandard1.6)) (== netstandard2.0)
       runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.2) - restriction: || (&& (== net461) (< net45) (>= netstandard1.6)) (== netstandard2.0)
@@ -399,12 +399,12 @@ NUGET
       Microsoft.NETCore.Platforms (>= 1.1) - restriction: || (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net451)) (== netstandard2.0)
       Microsoft.NETCore.Targets (>= 1.1) - restriction: || (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net451)) (== netstandard2.0)
       System.Runtime (>= 4.3) - restriction: || (&& (== net461) (>= dnxcore50)) (&& (== net461) (< net451)) (== netstandard2.0)
-    WebSharper.React (4.5.1.131)
-      WebSharper (>= 4.5.2 < 4.6)
   remote: https://daily.websharper.com/nuget
-    WebSharper (4.5.4.313)
-    WebSharper.FSharp (4.5.4.313)
-      WebSharper (4.5.4.313)
+    WebSharper (4.5.4.317)
+    WebSharper.FSharp (4.5.4.317)
+      WebSharper (4.5.4.317)
+    WebSharper.React (4.5.2.134)
+      WebSharper (>= 4.5.4 < 4.6)
 
 GROUP build
 RESTRICTION: == net45
