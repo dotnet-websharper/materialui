@@ -25,4 +25,4 @@ module Resources =
 
     [<Require(typeof<WebSharper.React.Bindings.Resources.ReactDOM>)>]
     type MaterialUI() =
-        inherit Resources.BaseResource("https://unpkg.com/@material-ui/core/umd/material-ui.development.js")
+        inherit Resources.BaseResource("https://unpkg.com/@material-ui/core@3.0.3/umd/material-ui.production.min.js")
